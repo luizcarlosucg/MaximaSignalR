@@ -9,8 +9,10 @@ namespace ClientConsoleSignalR.ADO
 {
     public class Conexao
     {
-        public static DataTable ObterDados(string sql, IList<ParametroSql> parametros)
+        public static RespostaRequisicaoSql ObterDados(string sql, IList<ParametroSql> parametros)
         {
+            RespostaRequisicaoSql retorno = new RespostaRequisicaoSql();
+
             string stringConexao = "Data Source=.\\SQLEXPRESS;Initial Catalog=MaximaSignalR;Integrated Security=SSPI";
             
             try
@@ -30,17 +32,24 @@ namespace ClientConsoleSignalR.ADO
 
                         conn.Open();
                         dr = cmd.ExecuteReader();
-                        
+
                         DataTable dt = new DataTable();
                         dt.Load(dr);
-                        return dt;
+
+                        retorno.OcorreuErro = false;
+                        retorno.LinhasAfetadas = dr.RecordsAffected;
+                        retorno.Retorno.Add(dt);
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw new Exception();
+                retorno.OcorreuErro = true;
+                retorno.LinhasAfetadas = 0;
+                retorno.MensagemErro = ex.Message;
             }
+
+            return retorno;
         }
     }
 }

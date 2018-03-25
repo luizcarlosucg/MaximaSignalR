@@ -60,8 +60,11 @@ namespace WebServerSignalR.Controllers
                 }
 
                 //resposta = Requisicoes.DeserializaRespostaRequisicaoSql(retorno);
-                resposta.Retorno[0] = JsonConvert.DeserializeObject<DataTable>(resposta.Retorno[0].ToString());
-
+                if(!(resposta.Retorno == null) && resposta.Retorno.Count > 0)
+                {
+                    resposta.Retorno[0] = JsonConvert.DeserializeObject<DataTable>(resposta.Retorno[0].ToString());
+                }
+                
                 return View(resposta);
             }
             catch (Exception ex)

@@ -50,24 +50,30 @@
     </tr>
 </table>
 
-<br />
-<label>Dados do retorno:</label>
-<br />
+@if (!(Model.Retorno == null) && Model.Retorno.Count > 0)
+{
+    <br />
+    <label>Dados do retorno:</label>
+    <br />
 
-<div>
-    <table id="tabela">
-        
-        @foreach (DataRow row in ((DataTable)Model.Retorno[0]).Rows)
-        {
+    <div>
+        <table id="tabela">
             <tr>
-                <td>@row["Codigo"]</td>
-                <td>@row["Descricao"]</td>
-                <td>@row["Status"]</td>
+                @foreach (DataColumn col in ((DataTable)Model.Retorno[0]).Columns)
+                {
+                    <th>@col.ColumnName</th>
+                }
             </tr>
-        }
-        <thead>
-            <tr></tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+
+            @foreach (DataRow row in ((DataTable)Model.Retorno[0]).Rows)
+            {
+                <tr>
+                    @foreach (DataColumn col in ((DataTable)Model.Retorno[0]).Columns)
+                    {
+                        <td>@row[col.ColumnName]</td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+}

@@ -33,11 +33,10 @@ namespace ClientConsoleSignalR
                             Console.WriteLine($"    Nome: {parametro.Nome}, Valor: {parametro.Valor}, Tipo: {parametro.Tipo}");
                         }
 
-                        dados = Conexao.ObterDados(requisicao.ComandoSql, requisicao.Parametros);
-                        var lista = new List<dynamic>();
-                        lista.Add(dados);
+                        RespostaRequisicaoSql resposta = Conexao.ObterDados(requisicao.ComandoSql, requisicao.Parametros);
 
-                        RespostaRequisicaoSql resposta = new RespostaRequisicaoSql(requisicao.CodigoRequisicao, lista, false, string.Empty, 3, ProcessamentoBroadcast.CriarParametros());
+                        resposta.CodigoRequisicaoSql = requisicao.CodigoRequisicao;
+                        resposta.Parametros = ProcessamentoBroadcast.CriarParametros();
 
                         serverHub.Invoke("devolverDados", resposta);
                     }

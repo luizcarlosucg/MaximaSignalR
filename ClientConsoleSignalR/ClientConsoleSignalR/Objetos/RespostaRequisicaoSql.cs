@@ -12,6 +12,11 @@ namespace ClientConsoleSignalR.Objetos
         public int LinhasAfetadas { get; set; }
         public IList<ParametroEntrada> Parametros { get; set; }
 
+        public RespostaRequisicaoSql()
+        {
+            this.Retorno = new List<dynamic>();
+        }
+
         public RespostaRequisicaoSql(long codigoRequisicaoSql, IList<dynamic> retorno, bool ocorreuErro, string mensagemErro, int linhasAfetadas, IList<ParametroEntrada> parametros)
         {
             this.CodigoRequisicaoSql = codigoRequisicaoSql;
