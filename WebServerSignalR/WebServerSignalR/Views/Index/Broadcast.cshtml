@@ -1,0 +1,73 @@
+﻿@model WebServerSignalR.Objetos.RespostaRequisicaoSql
+@using System.Data
+
+@{
+    ViewBag.Title = "Broadcast SQL";
+}
+
+<br />
+
+<table style="width: 100%">
+    <tr>
+        <td>
+            <label>Código Requisição</label>
+        </td>
+        <td>
+            @Html.EditorFor(model => model.CodigoRequisicaoSql)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Ocorreu erro</label>
+        </td>
+        <td>
+            @Html.EditorFor(model => model.OcorreuErro)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Mensagem de Erro</label>
+        </td>
+        <td>
+            @Html.EditorFor(model => model.MensagemErro)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Linhas Afetadas</label>
+        </td>
+        <td>
+            @Html.EditorFor(model => model.LinhasAfetadas)
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Parametros</label>
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Parametros)
+        </td>
+    </tr>
+</table>
+
+<br />
+<label>Dados do retorno:</label>
+<br />
+
+<div>
+    <table id="tabela">
+        
+        @foreach (DataRow row in ((DataTable)Model.Retorno[0]).Rows)
+        {
+            <tr>
+                <td>@row["Codigo"]</td>
+                <td>@row["Descricao"]</td>
+                <td>@row["Status"]</td>
+            </tr>
+        }
+        <thead>
+            <tr></tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>

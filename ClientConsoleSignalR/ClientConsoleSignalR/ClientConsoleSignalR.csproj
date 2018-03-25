@@ -78,6 +78,15 @@
   <ItemGroup>
     <Compile Include="ADO\Conexao.cs" />
     <Compile Include="ClientHub.cs" />
+    <Compile Include="Funcoes\DataTableExtensions.cs" />
+    <Compile Include="Funcoes\ProcessamentoBroadcast.cs" />
+    <Compile Include="Objetos\Enumeradores\DirecaoParametroSql.cs" />
+    <Compile Include="Objetos\Enumeradores\TipoConsulta.cs" />
+    <Compile Include="Objetos\Enumeradores\TipoParametroSql.cs" />
+    <Compile Include="Objetos\ParametroEntrada.cs" />
+    <Compile Include="Objetos\ParametroSql.cs" />
+    <Compile Include="Objetos\RequisicaoSql.cs" />
+    <Compile Include="Objetos\RespostaRequisicaoSql.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />

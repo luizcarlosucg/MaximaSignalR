@@ -1,45 +1,45 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using ClientConsoleSignalR.Objetos;
 
 namespace ClientConsoleSignalR.ADO
 {
     public class Conexao
     {
-        public static string ObterDados(string sql)
+        public static DataTable ObterDados(string sql, IList<ParametroSql> parametros)
         {
-            SqlConnection conn = new SqlConnection("Data Source=.\\SQLEXPRESS;Initial Catalog=MaximaSignalR;Integrated Security=SSPI");
-
-            SqlDataReader dr = null;
-
+            string stringConexao = "Data Source=.\\SQLEXPRESS;Initial Catalog=MaximaSignalR;Integrated Security=SSPI";
+            
             try
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand(sql, conn);
+                using (SqlConnection conn = new SqlConnection(stringConexao))
+                {
+                    SqlDataReader dr = null;
 
-                dr = cmd.ExecuteReader();
+                    using (SqlCommand cmd = conn.CreateCommand())
+                    {
+                        cmd.CommandText = sql;
 
-                DataTable dt = new DataTable();
-                dt.Load(dr);
+                        foreach (var parametro in parametros)
+                        {
+                            cmd.Parameters.AddWithValue(parametro.Nome, parametro.Valor);
+                        }
 
-                return JsonConvert.SerializeObject(dt, Formatting.Indented);
+                        conn.Open();
+                        dr = cmd.ExecuteReader();
+                        
+                        DataTable dt = new DataTable();
+                        dt.Load(dr);
+                        return dt;
+                    }
+                }
             }
             catch
             {
                 throw new Exception();
-            }
-            finally
-            {
-                if (dr != null)
-                {
-                    dr.Close();
-                }
-
-                if (conn != null)
-                {
-                    conn.Close();
-                }
             }
         }
     }

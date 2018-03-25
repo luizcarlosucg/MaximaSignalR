@@ -1,80 +1,33 @@
-﻿
-@{
-    ViewBag.Title = "Broadcast SQL";
-}
+﻿@model WebServerSignalR.Models.Index
 
-<br />
-<table style="width: 100%">
-    <tr>
-        <td style="width: 15%">
-            <label for="idClient">Id Cliente:</label>
-        </td>
-        <td style="width: 85%">
-            <input type="text" name="idClient" id="idClient" style="width: 80px" maxlength="5" value="45" />
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label for="sql">Consulta Sql:</label>
-        </td>
-        <td>
-            <input type="text" name="sql" id="sql" style="width: 700px" value="select * from dadosmaxima" />
-        </td>
-    </tr>
-</table>
-<br />
-<input type="button" id="btnEnviar" value="Enviar" />
+    @{
+        ViewBag.Title = "Broadcast SQL";
+    }
 
-<br />
+    <br />
 
-<br />
-<div id="mensagem">
+    <form action="/Index/Broadcast" method="post">
+        <table style="width: 100%">
+            <tr>
+                <td style="width: 15%">
+                    <label for="idClient">Id Cliente:</label>
+                </td>
+                <td style="width: 85%">
+                    <input type="text" name="Codigo" id="Codigo" style="width: 80px" maxlength="5" value="45" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="sql">Consulta Sql:</label>
+                </td>
+                <td>
+                    <input type="text" name="Consulta" id="Codigo" style="width: 700px" value="select * from dadosmaxima" />
+                </td>
+            </tr>
+        </table>
 
-</div>
-<div>
-    <table id="tabela">
-        <thead>
-            <tr></tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+        <br />
+        <input type="submit" id="btnEnviar" value="Enviar" />
 
-<script src="~/Scripts/jquery.signalR-2.2.2.min.js"></script>
-<script src="~/signalr/hubs/" type="text/javascript"></script>
-
-
-
-<script type="text/javascript">
-    $(function () {
-        var hub = $.connection.broadcastHub;
-
-        hub.client.exibeResultado = function (dados) {
-
-
-            $("#tabela th").remove();
-            $("#tabela td").remove();
-
-            dados = JSON.parse(dados);
-
-            var colHeader = Object.keys(dados[0]);
-
-            for (var i = 0; i < colHeader.length; i++) {
-                $('table thead tr').append('<th>' + colHeader[i] + '</th>');
-            }
-
-            for (var i = 0; i < dados.length; i++) {
-                $('table tbody').append('<tr></tr>')
-                for (var j = 0; j < colHeader.length; j++) {
-                    $('table tbody tr').last().append('<td>' + dados[i][colHeader[j]] + '</td>');
-                }
-            }
-        };
-
-        $.connection.hub.start().done(function () {
-            $("#btnEnviar").click(function () {
-                hub.server.consultarDados($("#idClient").val(), $("#sql").val());
-            });
-        });
-    });
-</script>
+        <br />
+    </form>
